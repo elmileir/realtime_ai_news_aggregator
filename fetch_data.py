@@ -15,7 +15,7 @@ def get_classifier():
 
 classifier = get_classifier()
 
-CATEGORIES = ["Finance and Markets", "Law, Policy and Regulation", "Technology and Science","Economy and Trade", "Business and Strategy", "Climate", "Arts"]
+CATEGORIES = ["Finance and Markets", "Law and Regulation","Politics", "Technology and Science","Economy and Trade", "Business and Strategy"]
 
 
 def fetch_single_feed(link_source_tuple):
@@ -89,7 +89,6 @@ def extract_and_clean_data(df):
 
 def main():
     links = {  
-        "https://feeds.content.dowjones.io/public/rss/mw_topstories":"MARKET WATCH TOP STORIES",
         "https://techxplore.com/rss-feed/":"TECHXPLOER",
         "https://news.mit.edu/rss/topic/economics":"MIT ECONOMICS",
         "http://feeds.bbci.co.uk/news/world/rss.xml ": "BBC",
@@ -100,7 +99,10 @@ def main():
         "https://www.forbes.com/static_html/rss/rsshelp_header.html":"FORBES",
         "https://www.theguardian.com/world/rss":"THE GUARDIAN",
         "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml":"NEW YORK TIMES",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml":"NYT ARTS"
+        "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml":"NYT ARTS",
+        "https://www.wired.com/feed/category/science/latest/rss": "WIRED SCIENCE FEED",
+        "https://www.wired.com/feed/tag/ai/latest/rss": "WIRED AI FEED"
+
     }
     df = fetch_feed(links)
     df_clean = extract_and_clean_data(df)

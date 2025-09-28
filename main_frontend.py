@@ -14,8 +14,12 @@ def run_dashboard():
     
     # Button to manually refresh data
     if st.button("Refresh Data"):
+
+        #st.cache_data.clear()
+        #st.experimental_rerun()
+        
         st.cache_data.clear()
-        st.experimental_rerun()
+        df = main()
     
     # Load data
     df = get_data()

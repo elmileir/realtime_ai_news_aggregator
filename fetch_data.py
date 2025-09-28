@@ -5,12 +5,17 @@ from bs4 import BeautifulSoup
 import concurrent.futures
 import re
 from transformers import pipeline
+import streamlit as st
 
-classifier = pipeline("zero-shot-classification",
-                      model="facebook/bart-large-mnli")
+@st.cache_resource
+def get_classifier():
+    from transformers import pipeline
+    return pipeline("zero-shot-classification", model="typeform/distilbert-base-uncased-mnli", device=-1)
 
-CATEGORIES = ["Finance and Markets", "Law, Policy and Regulation", "Technology and Science",
-              "Economy and Trade", "Business and Strategy", "Climate", "Arts"]
+
+classifier = get_classifier()
+
+CATEGORIES = ["Finance and Markets", "Law, Policy and Regulation", "Technology and Science","Economy and Trade", "Business and Strategy", "Climate", "Arts"]
 
 
 def fetch_single_feed(link_source_tuple):
@@ -38,7 +43,9 @@ def fetch_feed(links):
             result = future.result()
             for key in all_entries:
                 all_entries[key].extend(result[key])
-    return pd.DataFrame(all_entries)
+    # Always return a DataFrame
+    return pd.DataFrame(all_entries) if any(len(v) > 0 for v in all_entries.values()) else pd.DataFrame(columns=all_entries.keys())
+
 
 def clean_html(text):
     try:
@@ -67,34 +74,26 @@ def categorise_article(text):
     
 
 def extract_and_clean_data(df):
-    if df.empty:
-        return df
+    if df is None or df.empty:
+        return pd.DataFrame(columns=['Title', 'Link', 'date', 'Description', 'Source', 'Category'])
+    
     df['date'] = df['Published'].apply(extract_date)
     df = df.dropna(subset=['date'])
     df.drop(columns=['Published'], inplace=True)
-    df['Description'] = df['Description'].apply(lambda x: clean_html(x)[:500])
-    # AI categorisation
+    df.loc[:, 'Description'] = df['Description'].apply(lambda x: clean_html(x)[:500])
     df['Category'] = df['Description'].apply(categorise_article)
     return df
 
 
+
+
 def main():
-    links = {
-        "https://feeds.content.dowjones.io/public/rss/mw_topstories":"MARKET WATCH REALTIME",
+    links = {  
         "https://feeds.content.dowjones.io/public/rss/mw_topstories":"MARKET WATCH TOP STORIES",
-        "https://www.ft.com/rss/home":"FINANCIAL TIMES",
-        "https://feeds.bloomberg.com/markets/news.rss": "BLOOMBERG",
-        "https://feeds.bloomberg.com/markets/news.rss":"SCIENCE DAILY",
-        "https://news.mit.edu/rss/feed":"MIT NEWS",
         "https://techxplore.com/rss-feed/":"TECHXPLOER",
         "https://news.mit.edu/rss/topic/economics":"MIT ECONOMICS",
         "http://feeds.bbci.co.uk/news/world/rss.xml ": "BBC",
-        "https://www.forbes.com/static_html/rss/rsshelp_header.html":"FORBES",
-        "https://fortune.com/feed/":"FORTUNE",
-        "https://www.theguardian.com/world/rss":"THE GUARDIAN",
-        "https://ir.thomsonreuters.com/rss/news-releases.xml?items=15":"REUTERS FINANCIAL NEWS",
-        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml":"NYT",
-        "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml":"NYT ARTS"
+        "https://fortune.com/feed/":"FORTUNE"
     }
     df = fetch_feed(links)
     df_clean = extract_and_clean_data(df)

@@ -93,7 +93,14 @@ def main():
         "https://techxplore.com/rss-feed/":"TECHXPLOER",
         "https://news.mit.edu/rss/topic/economics":"MIT ECONOMICS",
         "http://feeds.bbci.co.uk/news/world/rss.xml ": "BBC",
-        "https://fortune.com/feed/":"FORTUNE"
+        "https://www.ft.com/rss/home":"FINANCIAL TIMES",
+        "https://feeds.bloomberg.com/markets/news.rss": "BLOOMBERG",
+        "https://news.mit.edu/rss/feed":"MIT NEWS",
+        "http://feeds.bbci.co.uk/news/world/rss.xml ": "BBC",
+        "https://www.forbes.com/static_html/rss/rsshelp_header.html":"FORBES",
+        "https://www.theguardian.com/world/rss":"THE GUARDIAN",
+        "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml":"NEW YORK TIMES",
+        "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml":"NYT ARTS"
     }
     df = fetch_feed(links)
     df_clean = extract_and_clean_data(df)

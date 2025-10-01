@@ -31,14 +31,6 @@ Concepts: Multithreading, Caching, Zero-Shot Classification
 
 Tools: Git, VS Code
 
-## 📂 Project Structure
-.
-├── fetch_data.py        # Backend: fetch, clean, and classify news
-├── main.py              # Backend entry point
-├── main_frontend.py     # Streamlit dashboard
-├── requirements.txt     # Project dependencies
-└── README.md            # Project documentation
-
 ## ▶️ Run Locally
 
 ### 1️⃣ Clone the repository

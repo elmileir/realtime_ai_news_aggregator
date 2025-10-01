@@ -6,7 +6,7 @@ real time news aggregator tool for business review editors
 
 ## 📊 Real-Time AI News Aggregator
 
-A Streamlit-powered dashboard that fetches, cleans, and categorizes live news articles from multiple sources using Hugging Face Transformers. The app enables users to filter by date range, categories, and article limits, providing an interactive and efficient way to track the latest trends in AI, business, science, finance, and more.
+A Streamlit-powered dashboard that fetches, cleans, and categorises live news articles from multiple sources using Hugging Face Transformers. The app enables users to filter by date range, categories, and article limits, providing an interactive and efficient way to track the latest trends in AI, business, science, finance, and more.
 
 ## 🚀 Features
 

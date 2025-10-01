@@ -41,9 +41,11 @@ cd realtime-news-aggregator
 
 ### 2️⃣ Create & activate a virtual environment
 
-python -m venv your_venv_name
-source your_venv_name/bin/activate   # Mac/Linux
-.\your_venv_name\Scripts\activate      # Windows
+‣python -m venv your_venv_name
+
+‣source your_venv_name/bin/activate   # Mac/Linux
+
+‣.\your_venv_name\Scripts\activate      # Windows
 
 
 ### 3️⃣ Install dependencies
